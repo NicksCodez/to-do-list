@@ -56,13 +56,13 @@
             Projects <button class="add-project">+</button>
           </div>
           <ul>
-            <li class="project">
-              <button class="project-button">Work</button>
+            <li class="project" data-projectTitle="home">
+              <button class="project-button">Home</button>
               <button class="project-modify">
                 <img src="./images/options.svg" alt="" />
               </button>
             </li>
-            <li class="project">
+            <li class="project" data-projectTitle="work">
               <button class="project-button">Work</button>
               <button class="project-modify">
                 <img src="./images/options.svg" alt="" />
@@ -72,29 +72,43 @@
         </div>
       </div>
       <div id="todos">
-        <div class="card" data-title="Mow the Lawn">
+        <div class="card" data-toDoTitle="Mow the Lawn">
           <div class="card-title">Mow the Lawn</div>
           <div class="card-description">
-            <button>
+            <button class="card-description-button">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
               voluptatum tempora quo maxime, repellendus minima?
             </button>
           </div>
           <div class="card-priority">
-            <button><img src="./images/alert-triangle.svg" alt="" /></button>
+            <button class="card-priority-button">
+              <img src="./images/alert-triangle.svg" alt="" />
+            </button>
           </div>
 
-          <div class="card-due-date"><button>12-12-2022</button></div>
+          <div class="card-due-date">
+            <button class="card-due-date-button">12-12-2022</button>
+          </div>
 
           <div class="card-days-left">Days left: 3</div>
           <div class="card-extra-buttons">
-            <button><img src="./images/book.svg" alt="" /></button>
-            <button><img src="./images/check-square.svg" alt="" /></button>
+            <button class="card-notes-button">
+              <img src="./images/book.svg" alt="" />
+            </button>
+            <button class="card-checks-button">
+              <img src="./images/check-square.svg" alt="" />
+            </button>
           </div>
           <div class="card-control-buttons">
-            <button><img src="./images/pause.svg" alt="" /></button>
-            <button><img src="./images/check.svg" alt="" /></button>
-            <button><img src="./images/x-circle.svg" alt="" /></button>
+            <button class="card-pause-button">
+              <img src="./images/pause.svg" alt="" />
+            </button>
+            <button class="card-complete-button">
+              <img src="./images/check.svg" alt="" />
+            </button>
+            <button class="card-delete-button">
+              <img src="./images/x-circle.svg" alt="" />
+            </button>
           </div>
         </div>
         <div class="card"></div>
