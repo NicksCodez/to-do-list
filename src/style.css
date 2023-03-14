@@ -161,6 +161,7 @@ button > img {
 
 .card {
   width: 30vw;
+  min-width: 303px;
   height: 15vh;
   background-color: pink;
   border-radius: 1rem;
@@ -177,6 +178,22 @@ button > img {
     'description controlButtons';
   grid-column-gap: 0.2rem;
   text-align: center;
+}
+
+.card-paused {
+  opacity: 0.6;
+  background-image: url('./images/pause.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.card-done {
+  opacity: 0.6;
+  background-image: url('./images/check.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 .card-title {
