@@ -8,11 +8,11 @@ export default function projectFactory(name) {
     return toDos;
   }
 
-  function getName() {
+  function getTitle() {
     return _name;
   }
 
-  function setName(newName) {
+  function setTitle(newName) {
     _name = newName;
   }
 
@@ -68,12 +68,16 @@ export default function projectFactory(name) {
   }
 
   function getToDoIndex(title) {
-    for (let i = 0; i < toDos.length; i++) {
-      if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
-        return i;
-      }
-    }
-    return -1;
+    return toDos.findIndex(
+      (toDo) => toDo.getTitle().toUpperCase() === title.toUpperCase()
+    );
+
+    // for (let i = 0; i < toDos.length; i++) {
+    //   if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
+    //     return i;
+    //   }
+    // }
+    // return -1;
   }
 
   function getToDo(title) {
@@ -97,8 +101,8 @@ export default function projectFactory(name) {
 
   return {
     getToDos,
-    getName,
-    setName,
+    getTitle,
+    setTitle,
     sortByPriority,
     sortByTitle,
     addAndSort,

@@ -1,6 +1,3 @@
-:root {
-}
-
 body {
   width: 100vw;
   height: 100vh;
@@ -8,6 +5,11 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }
 
 #content {
@@ -19,6 +21,13 @@ body {
     'sidebar todos';
   margin: 0;
   flex-grow: 1;
+  opacity: 1;
+  transition: opacity 200ms ease-in-out 0ms;
+}
+
+#content.transparent {
+  opacity: 0.4;
+  transition: opacity 200ms ease-in-out 0ms;
 }
 
 #footer {
@@ -78,6 +87,8 @@ body {
   font-size: 1.8rem;
   border-bottom: 3px solid black;
   font-weight: bold;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .home > ul,
@@ -138,7 +149,8 @@ button > img {
   padding: 0.2rem 0.5rem;
 }
 
-#sidebar button:hover {
+#sidebar button:hover,
+#sidebar button:active {
   background-color: #a8a29e;
   border-radius: 5px;
   transition: 0.7s;
@@ -178,6 +190,9 @@ button > img {
     'description controlButtons';
   grid-column-gap: 0.2rem;
   text-align: center;
+  opacity: 1;
+  transition: opacity 200ms ease-in-out 0ms background-image 200ms ease-in-out
+    0ms;
 }
 
 .card-paused {
@@ -186,6 +201,8 @@ button > img {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  transition: opacity 200ms ease-in-out 0ms background-image 200ms ease-in-out
+    0ms;
 }
 
 .card-done {
@@ -194,6 +211,8 @@ button > img {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  transition: opacity 200ms ease-in-out 0ms background-image 200ms ease-in-out
+    0ms;
 }
 
 .card-title {
@@ -251,4 +270,126 @@ button > img {
   background-color: #a8a29e;
   border-radius: 5px;
   transition: 0.7s;
+}
+
+.form {
+  position: absolute;
+  top: -150%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.25);
+  width: 20vw;
+  padding: 20px 30px;
+  background: #fff;
+  box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  border: 1px solid;
+  transition: top 0ms ease-in-out 200ms, opacity 200ms ease-in-out 0ms,
+    transform 200ms ease-in-out 0ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form.active {
+  top: 50%;
+  opacity: 1;
+  transform: translate(-50% -50%) scale(1);
+  transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms,
+    transform 200ms ease-in-out 0ms;
+}
+
+fieldset {
+  border: none;
+}
+
+legend {
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+input {
+  font-size: inherit;
+}
+
+input[type='text'] {
+  padding: 2px 5px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.form-buttons {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.form-cancel,
+.form-submit {
+  background-color: white;
+  font-size: 18px;
+  padding: 3px 10px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.form-cancel {
+  color: red;
+}
+
+.form-submit {
+  color: green;
+}
+
+.note-list {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+.note-list div {
+  display: flex;
+  flex-direction: row;
+  padding-right: 0.5rem;
+}
+
+.note-list div > p {
+  flex-grow: 1;
+}
+
+.note-list button {
+  max-width: min-content;
+}
+
+.checkpoint-list {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+.checkpoint-list div {
+  display: flex;
+  flex-direction: row;
+}
+
+select.toDo-priority option {
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  padding-left: 30px;
+}
+
+textarea {
+  max-width: 20vw;
+  max-height: 40vh;
 }

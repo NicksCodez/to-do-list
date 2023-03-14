@@ -1,0 +1,121 @@
+.form {
+  position: absolute;
+  top: -150%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.25);
+  width: 20vw;
+  padding: 20px 30px;
+  background: #fff;
+  box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  border: 1px solid;
+  transition: top 0ms ease-in-out 200ms, opacity 200ms ease-in-out 0ms,
+    transform 200ms ease-in-out 0ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form.active {
+  top: 50%;
+  opacity: 1;
+  transform: translate(-50% -50%) scale(1);
+  transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms,
+    transform 200ms ease-in-out 0ms;
+}
+
+fieldset {
+  border: none;
+}
+
+legend {
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+input {
+  font-size: inherit;
+}
+
+input[type='text'] {
+  padding: 2px 5px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.form-buttons {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.form-cancel,
+.form-submit {
+  background-color: white;
+  font-size: 18px;
+  padding: 3px 10px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.form-cancel {
+  color: red;
+}
+
+.form-submit {
+  color: green;
+}
+
+.note-list {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+.note-list div {
+  display: flex;
+  flex-direction: row;
+  padding-right: 0.5rem;
+}
+
+.note-list div > p {
+  flex-grow: 1;
+}
+
+.note-list button {
+  max-width: min-content;
+}
+
+.checkpoint-list {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+.checkpoint-list div {
+  display: flex;
+  flex-direction: row;
+}
+
+select.toDo-priority option {
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  padding-left: 30px;
+}
+
+textarea {
+  max-width: 20vw;
+  max-height: 40vh;
+}

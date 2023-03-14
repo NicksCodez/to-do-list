@@ -142,9 +142,5 @@ export default function toDoFactory(
     setDatePaused,
     getDateResumed,
     setDateResumed,
-    _title,
-    description,
-    dueDate,
-    priority,
   };
 }
