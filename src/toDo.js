@@ -10,6 +10,7 @@ export default function toDoFactory(
   let _description = description;
   let _dueDate = dueDate;
   let _priority = priority;
+  let _status = 0; // 0 ongoing, 1 paused, 2 completed
   const createdOn = new Date();
   const notes = [];
   const checklist = [];
@@ -119,6 +120,14 @@ export default function toDoFactory(
     return _priority;
   }
 
+  function setStatus(status) {
+    _status = status;
+  }
+
+  function getStatus() {
+    return _status;
+  }
+
   return {
     setTitle,
     getTitle,
@@ -142,5 +151,7 @@ export default function toDoFactory(
     setDatePaused,
     getDateResumed,
     setDateResumed,
+    setStatus,
+    getStatus,
   };
 }

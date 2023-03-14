@@ -1,117 +1,19 @@
 import './style.css';
 import './form-style.css';
-import toDoFactory from './toDo';
-import projectFactory from './projectFactory';
-
-const controller = () => {
-  const projectList = [];
-  const currentProject = 0;
-
-  function findProjectIndex(title) {
-    return projectList.findIndex(
-      (project) => project.getTitle().toUpperCase() === title.toUpperCase()
-    );
-  }
-
-  function getProjectList() {
-    return projectList;
-  }
-
-  function add(title) {
-    projectList.push(projectFactory(title));
-  }
-
-  function removeProject(title) {
-    const projectIndex = findProjectIndex(title);
-    if (projectIndex !== -1) {
-      projectList.splice(projectIndex, 1);
-    }
-  }
-
-  function changeProjectTitle(title, newTitle) {
-    const projectIndex = findProjectIndex(title);
-    if (projectIndex !== -1) {
-      projectList[projectIndex].setTitle(newTitle);
-    }
-  }
-
-  function loadProjects() {
-    // clearProjects implement me to clear the projects sidebar
-    for (let i = 0; i < projectList.length; i++) {
-      // displayProject(projectList[i].getTitle()) implement me to add child li to ul project list with proper name
-    }
-  }
-
-  function loadToDos() {
-    const toDos = projectList[currentProject].getToDos();
-    for (let i = 0; i < toDos.length; i++) {
-      // displayTodo(toDos[i]) implement me to add child card div to #todos;
-    }
-  }
-
-  function changeToDoPriority(title, newPriority) {
-    const toDoIndex = projectList[currentProject]
-      .getToDos()
-      .getToDoIndex(title);
-    projectList[currentProject].getToDos()[toDoIndex].setPriority(newPriority);
-  }
-
-  function changeToDoDescription(title, newDescription) {
-    const toDoIndex = projectList[currentProject]
-      .getToDos()
-      .getToDoIndex(title);
-    projectList[currentProject]
-      .getToDos()
-      [toDoIndex].setDescription(newDescription);
-  }
-
-  function pauseToDo(title) {
-    const toDoIndex = projectList[currentProject]
-      .getToDos()
-      .getToDoIndex(title);
-    projectList[currentProject].getToDos()[toDoIndex].setDatePaused(new Date());
-  }
-
-  function resumeToDo(title) {
-    const toDoIndex = projectList[currentProject]
-      .getToDos()
-      .getToDoIndex(title);
-    projectList[currentProject]
-      .getToDos()
-      [toDoIndex].setDateResumed(new Date());
-  }
-
-  function completeToDo(title) {
-    const toDoIndex = projectList[currentProject]
-      .getToDos()
-      .getToDoIndex(title);
-    projectList[currentProject]
-      .getToDos()
-      [toDoIndex].setDateCompleted(new Date());
-  }
-
-  function buttonListeners() {}
-
-  add('Home');
-  add('Work');
-  console.log(findProjectIndex('Home'));
-  console.log(findProjectIndex('Work'));
-  console.log(findProjectIndex('Wok'));
-
-  projectList[0].add(
-    'Mow the Lawn',
-    "It's getting quite hairy out there",
-    new Date(),
-    0
-  );
-
-  return {
-    getProjectList,
-    add,
-  };
-};
+import controller from './controller';
 
 const projects = controller();
+
+projects.add('Home');
+projects.add('Work');
+console.log(projects.findProjectIndex('Home'));
+console.log(projects.findProjectIndex('Work'));
+console.log(projects.findProjectIndex('Wok'));
+
+projects
+  .getProjectList()[0]
+  .add('Mow the Lawn', "It's getting quite hairy out there", new Date(), 0);
+
 console.log(projects.getProjectList());
 console.log(projects.getProjectList()[0].getTitle());
 

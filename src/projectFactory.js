@@ -16,6 +16,28 @@ export default function projectFactory(name) {
     _name = newName;
   }
 
+  function getToDoIndex(title) {
+    return toDos.findIndex(
+      (toDo) => toDo.getTitle().toUpperCase() === title.toUpperCase()
+    );
+
+    // for (let i = 0; i < toDos.length; i++) {
+    //   if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
+    //     return i;
+    //   }
+    // }
+    // return -1;
+  }
+
+  function getToDo(title) {
+    for (let i = 0; i < toDos.length; i++) {
+      if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
+        return toDos[i];
+      }
+    }
+    return undefined;
+  }
+
   function add(title, description = '', dueDate = undefined, priority = 2) {
     const toDo = toDoFactory(title, description, dueDate, priority);
 
@@ -42,6 +64,10 @@ export default function projectFactory(name) {
     toDos.sort((a, b) => a.getPriority() - b.getPriority());
   }
 
+  function sortByStatus() {
+    toDos.sort((a, b) => a.getStatus() - b.getStatus());
+  }
+
   function sortByTitle() {
     toDos.sort((a, b) => {
       const titleA = a.getTitle().toUpperCase();
@@ -56,6 +82,12 @@ export default function projectFactory(name) {
     });
   }
 
+  function sortDefault() {
+    sortByStatus();
+    sortByTitle();
+    sortByPriority();
+  }
+
   function addAndSort(
     title,
     description = '',
@@ -63,30 +95,7 @@ export default function projectFactory(name) {
     priority = 2
   ) {
     add(title, description, dueDate, priority);
-    sortByTitle();
-    sortByPriority();
-  }
-
-  function getToDoIndex(title) {
-    return toDos.findIndex(
-      (toDo) => toDo.getTitle().toUpperCase() === title.toUpperCase()
-    );
-
-    // for (let i = 0; i < toDos.length; i++) {
-    //   if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
-    //     return i;
-    //   }
-    // }
-    // return -1;
-  }
-
-  function getToDo(title) {
-    for (let i = 0; i < toDos.length; i++) {
-      if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
-        return toDos[i];
-      }
-    }
-    return undefined;
+    sortDefault();
   }
 
   function replaceToDo(title, newToDo) {
@@ -105,6 +114,8 @@ export default function projectFactory(name) {
     setTitle,
     sortByPriority,
     sortByTitle,
+    sortByStatus,
+    sortDefault,
     addAndSort,
     add,
     remove,
