@@ -52,7 +52,9 @@
           </ul>
         </div>
         <div class="projects">
-          <div class="sidebar-title">Projects</div>
+          <div class="sidebar-title">
+            Projects <button class="add-project">+</button>
+          </div>
           <ul>
             <li class="project">
               <button class="project-button">Work</button>
@@ -70,7 +72,7 @@
         </div>
       </div>
       <div id="todos">
-        <div class="card">
+        <div class="card" data-title="Mow the Lawn">
           <div class="card-title">Mow the Lawn</div>
           <div class="card-description">
             <button>
@@ -100,6 +102,135 @@
       </div>
     </div>
     <div id="footer">Better read this copyright Bucko</div>
+    <div class="form add-project">
+      <form>
+        <fieldset>
+          <legend>Add a Project</legend>
+          <div>
+            <label for="project-title">Title</label>
+            <input type="text" id="project-title" name="project-title" />
+          </div>
+          <div class="form-buttons">
+            <button class="form-cancel">Cancel</button>
+            <button class="form-submit">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="form change-date">
+      <form>
+        <fieldset>
+          <legend>Select Due Date</legend>
+          <div>
+            <label for="due-date">Due Date</label>
+            <input type="date" id="due-date" name="due-date" />
+          </div>
+          <div class="form-buttons">
+            <button class="form-cancel">Cancel</button>
+            <button class="form-submit">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="form notes">
+      <form>
+        <fieldset>
+          <legend>Notes</legend>
+          <div class="note-list">
+            <div>
+              <p>Take trash out</p>
+              <button>x</button>
+            </div>
+          </div>
+          <div>
+            <label for="add-note">Add a note</label>
+            <input type="text" id="add-note" name="add-note" />
+          </div>
+          <div class="form-buttons">
+            <button class="form-cancel">Cancel</button>
+            <button class="form-submit">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="form checkpoints">
+      <form>
+        <fieldset>
+          <legend>Checkpoints</legend>
+          <div class="checkpoint-list">
+            <div>
+              <input type="checkbox" id="checkpoint" name="checkpoint" />
+              <label for="checkpoint">trash</label>
+            </div>
+          </div>
+          <div>
+            <label for="add-checkpoint">Add a checkpoint</label>
+            <input type="text" id="add-checkpoint" name="add-checkpoint" />
+          </div>
+          <div class="form-buttons">
+            <button class="form-cancel">Cancel</button>
+            <button class="form-submit">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="form toDo-settings">
+      <form>
+        <fieldset>
+          <legend>New ToDo</legend>
+          <div>
+            <label for="toDo-title">Title</label>
+            <input type="text" id="toDo-title" name="toDo-title" />
+          </div>
+          <div>
+            <label for="toDo-description">Description</label>
+            <textarea
+              name="toDo-description"
+              id="toDo-description"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+          <div>
+            <label for="toDo-priority">Priority</label>
+            <select
+              id="toDo-priority"
+              name="toDo-priority"
+              class="toDo-priority"
+            >
+              <option value="2">Select a priority</option>
+              <option value="0">High</option>
+              <option value="1">Medium</option>
+              <option value="2">Low</option>
+            </select>
+          </div>
+          <div class="form-buttons">
+            <button class="form-cancel">Cancel</button>
+            <button class="form-submit">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="form change-priority">
+      <form>
+        <fieldset>
+          <legend>Select Priority</legend>
+          <div>
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority" class="priority">
+              <option value="2">Select a priority</option>
+              <option value="0">High</option>
+              <option value="1">Medium</option>
+              <option value="2">Low</option>
+            </select>
+          </div>
+          <div class="form-buttons">
+            <button class="form-cancel">Cancel</button>
+            <button class="form-submit">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
   </body>
   <script src="bundle.js"></script>
 </html>
