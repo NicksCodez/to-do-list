@@ -1,8 +1,6 @@
-import {
-  isToday,
-  isThisWeek,
-  isThisMonth,
-} from 'date-fns/differenceInCalendarDays';
+import isToday from 'date-fns/isToday';
+import isThisWeek from 'date-fns/isThisWeek';
+import isThisMonth from 'date-fns/isThisMonth';
 import projectFactory from './projectFactory';
 
 export default function controller() {
@@ -154,5 +152,6 @@ export default function controller() {
     getToDosToday,
     getToDosWeek,
     getToDosMonth,
+    getToDosUrgent,
   };
 }

@@ -3,17 +3,54 @@ import controller from './controller';
 export default function attachButonListeners() {
   const projects = controller();
 
+  // buttons
   const homeButtons = document.querySelectorAll('.home-button');
   const projectButtons = document.querySelectorAll('.project-button');
   const projectModifiers = document.querySelectorAll('.project-modify');
   const addProject = document.querySelector('.add-project');
-  const toDoPriorityButtons = document.querySelector('.card-priority-button');
-  const toDoDatesButtons = document.querySelector('.card-due-date-button');
-  const toDoNotesButtons = document.querySelector('.card-notes-button');
-  const toDoChecksButtons = document.querySelector('.card-checks-button');
-  const toDoPauseButtons = document.querySelector('.card-pause-button');
-  const toDoCompleteButtons = document.querySelector('.card-complete-button');
-  const toDoDeleteButtons = document.querySelector('.card-delete-button');
+  const toDoPriorityButtons = document.querySelectorAll(
+    '.card-priority-button'
+  );
+  const toDoDatesButtons = document.querySelectorAll('.card-due-date-button');
+  const toDoNotesButtons = document.querySelectorAll('.card-notes-button');
+  const toDoChecksButtons = document.querySelectorAll('.card-checks-button');
+  const toDoPauseButtons = document.querySelectorAll('.card-pause-button');
+  const toDoCompleteButtons = document.querySelectorAll(
+    '.card-complete-button'
+  );
+  const toDoDeleteButtons = document.querySelectorAll('.card-delete-button');
+  const submitFormButtons = document.querySelectorAll('.form-submit');
+  const cancelFormButtons = document.querySelectorAll('.form-cancel');
+
+  const deleteNoteButtons = document.querySelectorAll('.delete-note');
+  // inputs
+  // add-project form
+  const newProjectTitle = document.querySelector(
+    'input[id="project-title"]'
+  ).value;
+
+  // change-date form
+  const newDueDate = document.querySelector('input[id="due-date"]').value;
+
+  // notes form
+  const newNote = document.querySelector('input[id="add-note"]').value;
+
+  // checkpoints form
+  const newCheckpoint = document.querySelector(
+    'input[id="add-checkpoint"]'
+  ).value;
+
+  // priority form
+  const newPriority = document.querySelector('select[id="priority"]').value;
+
+  // toDo settings form
+  const toDoTitle = document.querySelector('input[id="toDo-title"]').value;
+  const toDoDescription = document.querySelector(
+    'textarea[id="toDo-description"]'
+  ).value;
+  const toDoPriority = document.querySelector(
+    'select[id="toDo-priority"]'
+  ).value;
 
   function getCardTitle(event) {
     return event.target.closest('.card').dataset.title;
