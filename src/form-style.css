@@ -107,6 +107,15 @@ form div {
 .checkpoint-list div {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+
+.delete-checkpoint {
+  width: min-content;
+  text-align: center;
+  padding: 0;
 }
 
 select.toDo-priority option {

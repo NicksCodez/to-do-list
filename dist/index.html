@@ -67,6 +67,10 @@
               <button class="project-modify">
                 <img src="./images/options.svg" alt="" />
               </button>
+              <ul class="project-popups">
+                <li><button class="project-edit">Edit</button></li>
+                <li><button class="project-delete">Delete</button></li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -131,6 +135,25 @@
         </fieldset>
       </form>
     </div>
+    <div class="form edit-project">
+      <form>
+        <fieldset>
+          <legend>Change Project Title</legend>
+          <div>
+            <label for="new-project-title">Title</label>
+            <input
+              type="text"
+              id="new-project-title"
+              name="new-project-title"
+            />
+          </div>
+          <div class="form-buttons">
+            <button class="form-cancel">Cancel</button>
+            <button class="form-submit">Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
     <div class="form change-date">
       <form>
         <fieldset>
@@ -172,9 +195,12 @@
         <fieldset>
           <legend>Checkpoints</legend>
           <div class="checkpoint-list">
-            <div>
-              <input type="checkbox" id="checkpoint" name="checkpoint" />
-              <label for="checkpoint">trash</label>
+            <div class="ckeckpoint">
+              <div>
+                <input type="checkbox" id="checkpoint" name="checkpoint" />
+                <label for="checkpoint">trash</label>
+              </div>
+              <button class="delete-checkpoint">x</button>
             </div>
           </div>
           <div>

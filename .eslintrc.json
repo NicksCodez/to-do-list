@@ -12,6 +12,7 @@
     "no-console": "warn",
     "quotes": ["error", "single"],
     "no-plusplus": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-loop-func": "off"
   }
 }

@@ -2,6 +2,7 @@ import isToday from 'date-fns/isToday';
 import isThisWeek from 'date-fns/isThisWeek';
 import isThisMonth from 'date-fns/isThisMonth';
 import projectFactory from './projectFactory';
+import toDoFactory from './toDo';
 
 export default function controller() {
   const projectList = [];
@@ -65,6 +66,13 @@ export default function controller() {
     if (projectIndex !== -1) {
       projectList.splice(projectIndex, 1);
     }
+    if (currentProject >= projectList.length && currentProject > 0) {
+      currentProject--;
+    }
+  }
+
+  function removeToDo(title) {
+    projectList[currentProject].remove(title);
   }
 
   function changeProjectTitle(title, newTitle) {
@@ -134,13 +142,43 @@ export default function controller() {
     projectList[currentProject].getToDo(title).setStatus(2);
   }
 
+  function selectProject(title) {
+    setCurrentProject(findProjectIndex(title));
+  }
+
+  function removeCheckpoint(title, checkpoint) {
+    projectList[currentProject].getToDo(title).deleteCheckpoint(checkpoint);
+  }
+
+  function removeNote(title, note) {
+    projectList[currentProject].getToDo(title).deleteNote(note);
+  }
+
+  function changeDueDate(title, newDate) {
+    projectList[currentProject].getToDo(title).setDueDate(newDate);
+  }
+
+  function addNote(title, newNote) {
+    projectList[currentProject].getToDo(title).addNote(newNote);
+  }
+
+  function addCheckpoint(title, newCheckpoint) {
+    projectList[currentProject].getToDo(title).addCheckpoint(newCheckpoint);
+  }
+
+  function changeToDoTitle(title, newTitle) {
+    projectList[currentProject].getToDo(title).setTitle(newTitle);
+  }
+
   return {
     getProjectList,
     add,
     removeProject,
+    removeToDo,
     changeProjectTitle,
     changeToDoPriority,
     changeToDoDescription,
+    changeToDoTitle,
     pauseToDo,
     resumeToDo,
     completeToDo,
@@ -153,5 +191,11 @@ export default function controller() {
     getToDosWeek,
     getToDosMonth,
     getToDosUrgent,
+    selectProject,
+    removeCheckpoint,
+    removeNote,
+    changeDueDate,
+    addNote,
+    addCheckpoint,
   };
 }

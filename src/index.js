@@ -1,6 +1,7 @@
 import './style.css';
 import './form-style.css';
 import controller from './controller';
+import attachButonListeners from './attachButtonListeners';
 
 const projects = controller();
 
@@ -30,6 +31,8 @@ button.addEventListener('click', (event) => {
   console.log('button');
   console.log(button.closest('.card').dataset.title);
 });
+
+const listeners = attachButonListeners();
 
 // const workout = projectFactory('workout');
 // workout.add('tractiuni', '', undefined, 1);
