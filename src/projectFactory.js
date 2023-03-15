@@ -38,7 +38,7 @@ export default function projectFactory(name) {
     return undefined;
   }
 
-  function add(title, description = '', dueDate = undefined, priority = 2) {
+  function add(title, description = '', dueDate = new Date(), priority = 2) {
     const toDo = toDoFactory(title, description, dueDate, priority);
 
     for (let i = 0; i < toDos.length; i++) {
@@ -91,7 +91,7 @@ export default function projectFactory(name) {
   function addAndSort(
     title,
     description = '',
-    dueDate = undefined,
+    dueDate = new Date(),
     priority = 2
   ) {
     add(title, description, dueDate, priority);

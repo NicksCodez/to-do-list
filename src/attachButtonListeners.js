@@ -1,7 +1,9 @@
 import controller from './controller';
+import displayController from './displayController';
 
 export default function attachButonListeners() {
   const projects = controller();
+  const display = displayController();
   let currentTitle = '';
   console.log('yup, attaching or smth');
   // forms
@@ -255,11 +257,13 @@ export default function attachButonListeners() {
       switch (formType) {
         case 'add-project':
           projects.add(projectTitle.value);
-          // redisplay projects list
+          display.displayProjects(projects.getProjectList());
+          attachButonListeners();
           break;
         case 'edit-project':
           projects.changeProjectTitle(newProjectTitle.value);
-          // redisplay projects list
+          display.displayProjects(projects.getProjectList());
+          attachButonListeners();
           break;
         case 'change-date':
           projects.changeDueDate(currentTitle, newDueDate.value);

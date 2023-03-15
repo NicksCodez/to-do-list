@@ -3,7 +3,7 @@ import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 export default function toDoFactory(
   title,
   description = '',
-  dueDate = undefined,
+  dueDate = new Date(),
   priority = 2
 ) {
   let _title = title;

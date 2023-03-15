@@ -2,7 +2,6 @@ import isToday from 'date-fns/isToday';
 import isThisWeek from 'date-fns/isThisWeek';
 import isThisMonth from 'date-fns/isThisMonth';
 import projectFactory from './projectFactory';
-import toDoFactory from './toDo';
 
 export default function controller() {
   const projectList = [];

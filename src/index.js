@@ -1,38 +1,63 @@
 import './style.css';
 import './form-style.css';
+import format from 'date-fns/format';
 import controller from './controller';
 import attachButonListeners from './attachButtonListeners';
+import displayController from './displayController';
 
+const testDate = displayController();
+testDate.displayDate();
 const projects = controller();
-
 projects.add('Home');
 projects.add('Work');
-console.log(projects.findProjectIndex('Home'));
-console.log(projects.findProjectIndex('Work'));
-console.log(projects.findProjectIndex('Wok'));
-
+testDate.displayProjects(projects.getProjectList());
+console.log(projects.getProjectList()[0]);
 projects
   .getProjectList()[0]
-  .add('Mow the Lawn', "It's getting quite hairy out there", new Date(), 0);
+  .add('Mow the Lawn', "It's looking very wild out there");
+projects
+  .getProjectList()[0]
+  .add('Clean the fish tank', 'I saw a fish swimming upside down');
+projects
+  .getProjectList()[0]
+  .add('Walk the dog', "The rug's starting to look a bit too yellowy");
+testDate.displayToDos(projects.getProjectList()[0].getToDos());
+console.log(projects.getProjectList()[0].getToDo('Mow the Lawn'));
+attachButonListeners();
+// console.log(format(new Date(), "cccc', 'do LLLL"));
+// console.log(format(new Date(), 'dd-MM-yyyy'));
+// console.log(new Date());
+// const projects = controller();
 
-console.log(projects.getProjectList());
-console.log(projects.getProjectList()[0].getTitle());
+// projects.add('Home');
+// projects.add('Work');
+// console.log(projects.findProjectIndex('Home'));
+// console.log(projects.findProjectIndex('Work'));
+// console.log(projects.findProjectIndex('Wok'));
 
-const card = document.querySelector('.card');
-card.addEventListener('click', (event) => {
-  console.log('div: ', event);
-  console.log('div: ', event.target.dataset.title);
-});
+// projects
+//   .getProjectList()[0]
+//   .add('Mow the Lawn', "It's getting quite hairy out there", new Date(), 0);
 
-const button = document.querySelector('.card-priority > button');
-button.addEventListener('click', (event) => {
-  event.stopPropagation();
-  event.preventDefault();
-  console.log('button');
-  console.log(button.closest('.card').dataset.title);
-});
+// console.log(projects.getProjectList());
+// console.log(projects.getProjectList()[0].getTitle());
 
-const listeners = attachButonListeners();
+// const card = document.querySelector('.card');
+// card.addEventListener('click', (event) => {
+//   console.log('div: ', event);
+//   console.log('div: ', event.target.dataset.title);
+// });
+
+// const button = document.querySelector('.card-priority > button');
+// button.addEventListener('click', (event) => {
+//   event.stopPropagation();
+//   event.preventDefault();
+//   console.log('button');
+//   console.log(button.closest('.card').dataset.title);
+// });
+
+// const listeners = attachButonListeners();
+// ------------------------------------------------------------
 
 // const workout = projectFactory('workout');
 // workout.add('tractiuni', '', undefined, 1);
