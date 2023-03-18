@@ -6,18 +6,12 @@ export default function toDoFactory(
   dueDate = new Date(),
   priority = 2
 ) {
-  let _title = title;
-  let _description = description;
-  let _dueDate = dueDate;
-  let _priority = priority;
-  let _status = 0; // 0 ongoing, 1 paused, 2 completed
+  let status = 0; // 0 ongoing, 1 paused, 2 completed
   const createdOn = new Date();
   const notes = [];
   const checklist = [];
   let daysLeft =
-    _dueDate !== undefined
-      ? differenceInCalendarDays(_dueDate, new Date())
-      : '';
+    dueDate !== undefined ? differenceInCalendarDays(dueDate, new Date()) : '';
   let dateCompleted;
   let datePaused;
   let dateResumed;
@@ -52,7 +46,7 @@ export default function toDoFactory(
     }
   }
 
-  function getChecklist() {
+  function getCheckpoints() {
     return checklist;
   }
 
@@ -85,47 +79,50 @@ export default function toDoFactory(
   }
 
   function setTitle(newTitle) {
-    _title = newTitle;
+    title = newTitle;
   }
 
   function getTitle() {
-    return _title;
+    return title;
   }
 
   function setDescription(newDescription) {
-    _description = newDescription;
+    description = newDescription;
   }
 
   function getDescription() {
-    return _description;
+    return description;
   }
 
   function setDueDate(newDueDate) {
-    _dueDate = newDueDate;
+    dueDate = newDueDate;
     daysLeft =
-      _dueDate !== undefined
-        ? differenceInCalendarDays(_dueDate, new Date())
+      dueDate !== undefined
+        ? differenceInCalendarDays(dueDate, new Date())
         : '';
   }
 
   function getDueDate() {
-    return _dueDate;
+    return dueDate;
   }
 
   function setPriority(newPriority) {
-    _priority = newPriority;
+    if (newPriority === -1) {
+      return;
+    }
+    priority = newPriority;
   }
 
   function getPriority() {
-    return _priority;
+    return priority;
   }
 
-  function setStatus(status) {
-    _status = status;
+  function setStatus(newStatus) {
+    status = newStatus;
   }
 
   function getStatus() {
-    return _status;
+    return status;
   }
 
   return {
@@ -143,14 +140,14 @@ export default function toDoFactory(
     getNotes,
     addCheckpoint,
     deleteCheckpoint,
-    getChecklist,
+    getCheckpoints,
     getDaysLeft,
-    getDateCompleted,
     setDateCompleted,
-    getDatePaused,
+    getDateCompleted,
     setDatePaused,
-    getDateResumed,
+    getDatePaused,
     setDateResumed,
+    getDateResumed,
     setStatus,
     getStatus,
   };

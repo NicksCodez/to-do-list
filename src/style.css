@@ -254,6 +254,8 @@ button > img {
   grid-area: description;
   font-size: 1.2rem;
   text-align: justify;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-description button,
@@ -261,6 +263,26 @@ button > img {
   width: 100%;
   font-size: inherit;
   font-weight: inherit;
+}
+
+.card-description button {
+  flex-grow: 1;
+}
+
+.card-date-details {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.card-date-paused,
+.card-date-resumed {
+  opacity: 0;
+}
+
+.card-date-paused.active,
+.card-date-resumed.active {
+  opacity: 1;
 }
 
 .card-due-date button {
@@ -292,8 +314,29 @@ button > img {
   justify-content: space-evenly;
 }
 
+.add-card {
+  width: 30vw;
+  min-width: 303px;
+  height: 15vh;
+  background-color: pink;
+  border-radius: 1rem;
+  padding: 1rem;
+  background-color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-card button {
+  width: min-content;
+}
+
 #todos img {
   width: 1.6rem;
+}
+
+#add-card img {
+  width: 11rem;
 }
 
 #todos button:hover {

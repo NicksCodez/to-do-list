@@ -22,31 +22,31 @@
             <li>
               <button class="home-button">
                 <img src="./images/all-todos.svg" alt="" />
-                <div>All ToDos</div>
+                <div class="todos-category">All ToDos</div>
               </button>
             </li>
             <li>
               <button class="home-button">
                 <img src="./images/calendar-today.svg" alt="" />
-                <div>Today</div>
+                <div class="todos-category">Today</div>
               </button>
             </li>
             <li>
               <button class="home-button">
                 <img src="./images/calendar-week.svg" alt="" />
-                <div>This Week</div>
+                <div class="todos-category">This Week</div>
               </button>
             </li>
             <li>
               <button class="home-button">
                 <img src="./images/calendar-month.svg" alt="" />
-                <div>This Month</div>
+                <div class="todos-category">This Month</div>
               </button>
             </li>
             <li>
               <button class="home-button">
                 <img src="./images/alert-triangle.svg" alt="" />
-                <div>Urgent</div>
+                <div class="todos-category">Urgent</div>
               </button>
             </li>
           </ul>
@@ -83,6 +83,20 @@
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
               voluptatum tempora quo maxime, repellendus minima?
             </button>
+            <div class="card-date-details">
+              <div class="card-date-created">
+                <div>Created on:</div>
+                <div class="created-date">12.03.2020</div>
+              </div>
+              <div class="card-date-paused">
+                <div>Paused on:</div>
+                <div class="paused-date"></div>
+              </div>
+              <div class="card-date-resumed">
+                <div>Resumed on:</div>
+                <div class="resumed-date"></div>
+              </div>
+            </div>
           </div>
           <div class="card-priority">
             <button class="card-priority-button">
@@ -115,7 +129,11 @@
             </button>
           </div>
         </div>
-        <div class="card"></div>
+        <div class="add-card">
+          <button id="add-card">
+            <img src="./887d2aad484110b1f963.svg" alt="" />
+          </button>
+        </div>
         <div class="card"></div>
       </div>
     </div>
@@ -243,6 +261,10 @@
               <option value="1">Medium</option>
               <option value="2">Low</option>
             </select>
+          </div>
+          <div>
+            <label for="toDo-due-date">Due Date</label>
+            <input type="date" id="toDo-due-date" name="toDo-due-date" />
           </div>
           <div class="form-buttons">
             <button class="form-cancel">Cancel</button>

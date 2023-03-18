@@ -1,19 +1,66 @@
-import toDoFactory from './toDo';
+import isToday from 'date-fns/isToday';
+import isThisWeek from 'date-fns/isThisWeek';
+import isThisMonth from 'date-fns/isThisMonth';
+import toDoFactory from './toDoFactory';
 
 export default function projectFactory(name) {
   const toDos = [];
-  let _name = name;
+  let currentCategory = 'all';
+
+  function setCategory(newCategory) {
+    currentCategory = newCategory;
+  }
+
+  function getToDo(title) {
+    return toDos.find(
+      (toDo) => toDo.getTitle().toUpperCase() === title.toUpperCase()
+    );
+    // for (let i = 0; i < toDos.length; i++) {
+    //   if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
+    //     return toDos[i];
+    //   }
+    // }
+    // return undefined;
+  }
+
+  function getDayToDos() {
+    return toDos.filter((toDo) => isToday(toDo.getDueDate()) === true);
+  }
+  function getWeektoDos() {
+    return toDos.filter((toDo) => isThisWeek(toDo.getDueDate()) === true);
+  }
+  function getMonthToDos() {
+    return toDos.filter((toDo) => isThisMonth(toDo.getDueDate()) === true);
+  }
+  function getUrgentToDos() {
+    return toDos.filter(
+      (toDo) => isToday(toDo.getDueDate()) === true && toDo.getPriority() === 0
+    );
+  }
 
   function getToDos() {
-    return toDos;
+    switch (currentCategory) {
+      case 'all':
+        return toDos;
+      case 'day':
+        return getDayToDos();
+      case 'week':
+        return getWeektoDos();
+      case 'month':
+        return getMonthToDos();
+      case 'urgent':
+        return getUrgentToDos();
+      default:
+        return [];
+    }
   }
 
   function getTitle() {
-    return _name;
+    return name;
   }
 
   function setTitle(newName) {
-    _name = newName;
+    name = newName;
   }
 
   function getToDoIndex(title) {
@@ -29,35 +76,35 @@ export default function projectFactory(name) {
     // return -1;
   }
 
-  function getToDo(title) {
-    for (let i = 0; i < toDos.length; i++) {
-      if (toDos[i].getTitle().toUpperCase() === title.toUpperCase()) {
-        return toDos[i];
-      }
-    }
-    return undefined;
-  }
-
   function add(title, description = '', dueDate = new Date(), priority = 2) {
+    if (getToDo(title) !== undefined) {
+      alert('ToDo with same name already exists!');
+      return;
+    }
+
     const toDo = toDoFactory(title, description, dueDate, priority);
 
-    for (let i = 0; i < toDos.length; i++) {
-      if (toDo.getTitle().toUpperCase() === toDos[i].getTitle().toUpperCase()) {
-        alert('ToDo with same name already exists!');
-        return;
-      }
-    }
+    // for (let i = 0; i < toDos.length; i++) {
+    //   if (toDo.getTitle().toUpperCase() === toDos[i].getTitle().toUpperCase()) {
+    //     alert('ToDo with same name already exists!');
+    //     return;
+    //   }
+    // }
 
     toDos.push(toDo);
   }
 
   function remove(title) {
-    for (let i = 0; i < toDos.length; i++) {
-      if (toDos[i].getTitle() === title) {
-        toDos.splice(i, 1);
-        return;
-      }
+    const index = getToDoIndex(title);
+    if (index !== -1) {
+      toDos.splice(index, 1);
     }
+    // for (let i = 0; i < toDos.length; i++) {
+    //   if (toDos[i].getTitle() === title) {
+    //     toDos.splice(i, 1);
+    //     return;
+    //   }
+    // }
   }
 
   function sortByPriority() {
@@ -88,39 +135,47 @@ export default function projectFactory(name) {
     sortByPriority();
   }
 
-  function addAndSort(
-    title,
-    description = '',
-    dueDate = new Date(),
-    priority = 2
-  ) {
-    add(title, description, dueDate, priority);
-    sortDefault();
+  function sort(by = 'default') {
+    switch (by) {
+      case 'status':
+        return sortByStatus();
+      case 'priority':
+        return sortByPriority();
+      case 'title':
+        return sortByTitle();
+      default:
+        return sortDefault();
+    }
   }
 
-  function replaceToDo(title, newToDo) {
-    const index = getToDoIndex(title);
-    if (index === -1) {
-      return;
-    }
-    toDos.splice(index, 1, newToDo);
-    sortByTitle();
-    sortByPriority();
+  // function addSort(
+  //   title,
+  //   description = '',
+  //   dueDate = new Date(),
+  //   priority = 2
+  // ) {
+  //   add(title, description, dueDate, priority);
+  //   sortDefault();
+  // }
+
+  function editToDo(title, newTitle, description, dueDate, priority) {
+    const toDo = toDos.getToDo(title);
+    toDo.setTitle(newTitle);
+    toDo.setDescription(description);
+    toDo.setDueDate(dueDate);
+    toDo.setPriority(priority);
+    sortDefault();
   }
 
   return {
     getToDos,
     getTitle,
     setTitle,
-    sortByPriority,
-    sortByTitle,
-    sortByStatus,
-    sortDefault,
-    addAndSort,
+    sort,
     add,
     remove,
-    getToDoIndex,
     getToDo,
-    replaceToDo,
+    editToDo,
+    setCategory,
   };
 }

@@ -1,29 +1,35 @@
 import './style.css';
 import './form-style.css';
 import format from 'date-fns/format';
+import projectListFactory from './projectListFactory';
 import controller from './controller';
-import attachButonListeners from './attachButtonListeners';
 import displayController from './displayController';
+import toDoFactory from './toDoFactory';
 
-const testDate = displayController();
-testDate.displayDate();
-const projects = controller();
-projects.add('Home');
-projects.add('Work');
-testDate.displayProjects(projects.getProjectList());
-console.log(projects.getProjectList()[0]);
-projects
-  .getProjectList()[0]
-  .add('Mow the Lawn', "It's looking very wild out there");
-projects
-  .getProjectList()[0]
-  .add('Clean the fish tank', 'I saw a fish swimming upside down');
-projects
-  .getProjectList()[0]
-  .add('Walk the dog', "The rug's starting to look a bit too yellowy");
-testDate.displayToDos(projects.getProjectList()[0].getToDos());
-console.log(projects.getProjectList()[0].getToDo('Mow the Lawn'));
-attachButonListeners();
+const control = controller();
+document.addEventListener('DOMContentLoaded', () => {});
+control.initPage();
+// attachButonListeners();
+
+// const testDate = displayController();
+// testDate.displayDate();
+// const projects = controller();
+// projects.add('Home');
+// projects.add('Work');
+// testDate.displayProjects(projects.getProjectList());
+// console.log(projects.getProjectList()[0]);
+// projects
+//   .getProjectList()[0]
+//   .add('Mow the Lawn', "It's looking very wild out there");
+// projects
+//   .getProjectList()[0]
+//   .add('Clean the fish tank', 'I saw a fish swimming upside down');
+// projects
+//   .getProjectList()[0]
+//   .add('Walk the dog', "The rug's starting to look a bit too yellowy");
+// testDate.displayToDos(projects.getProjectList()[0].getToDos());
+// console.log(projects.getProjectList()[0].getToDo('Mow the Lawn'));
+
 // console.log(format(new Date(), "cccc', 'do LLLL"));
 // console.log(format(new Date(), 'dd-MM-yyyy'));
 // console.log(new Date());
