@@ -226,7 +226,7 @@ button > img {
   opacity: 0.6;
   background-image: url('./images/pause.svg');
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 25%;
   background-position: center;
   transition: opacity 200ms ease-in-out 0ms background-image 200ms ease-in-out
     0ms;
@@ -236,7 +236,7 @@ button > img {
   opacity: 0.6;
   background-image: url('./images/check.svg');
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 25%;
   background-position: center;
   transition: opacity 200ms ease-in-out 0ms background-image 200ms ease-in-out
     0ms;

@@ -19,11 +19,21 @@ export default function projectListFactory() {
   }
 
   function add(title) {
+    if (title === '') {
+      console.log('empty title');
+      return;
+    }
+    if (findProjectIndex(title) !== -1) {
+      alert('Project with same name already exists!');
+      return;
+    }
     projectList.push(projectFactory(title));
   }
 
   function remove(title) {
+    console.log(title);
     const projectIndex = findProjectIndex(title);
+    console.log(projectIndex);
     if (projectIndex !== -1) {
       projectList.splice(projectIndex, 1);
     }
@@ -33,6 +43,14 @@ export default function projectListFactory() {
   }
 
   function rename(title, newTitle) {
+    if (title === '') {
+      console.log('empty title');
+      return;
+    }
+    if (findProjectIndex(title) === -1) {
+      alert('Project with same name already exists!');
+      return;
+    }
     const projectIndex = findProjectIndex(title);
     if (projectIndex !== -1) {
       projectList[projectIndex].setTitle(newTitle);

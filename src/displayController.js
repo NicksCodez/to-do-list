@@ -1,4 +1,5 @@
 import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import MenuImg from './images/options.svg';
 import HighPriorityImg from './images/alert-triangle.svg';
 import MediumPriorityImg from './images/triangle.svg';
@@ -53,6 +54,7 @@ export default function displayController() {
       const deleteButton = document.createElement('button');
       deleteButton.setAttribute('class', 'project-delete');
       deleteButton.textContent = 'Delete';
+      deleteButton.dataset.title = projectList[i].getTitle();
       hiddenLi2.appendChild(deleteButton);
       optionsUl.appendChild(hiddenLi2);
     }
@@ -60,23 +62,25 @@ export default function displayController() {
 
   function pauseCard(card, date = new Date()) {
     const img = card.querySelector('.card-pause-button > img');
-    const datePausedDiv = card.querySelector('card-date-paused');
+    const datePausedDiv = card.querySelector('.paused-date');
+    const cardDatePaused = card.querySelector('.card-date-paused');
     card.classList.add('card-paused');
     img.setAttribute('src', PlayImg);
     datePausedDiv.textContent = format(date, 'dd-MM-yyyy');
-    if (!datePausedDiv.classList.contains('.active')) {
-      datePausedDiv.classList.add('.active');
+    if (!cardDatePaused.classList.contains('active')) {
+      cardDatePaused.classList.add('active');
     }
   }
 
   function resumeCard(card, date = new Date()) {
     const img = card.querySelector('.card-pause-button > img');
-    const dateResumedDiv = card.querySelector('card-date-paused');
+    const dateResumedDiv = card.querySelector('.resumed-date');
+    const cardDateResumed = card.querySelector('.card-date-resumed');
     card.classList.remove('card-paused');
     img.setAttribute('src', PauseImg);
     dateResumedDiv.textContent = format(date, 'dd-MM-yyyy');
-    if (!dateResumedDiv.classList.contains('.active')) {
-      dateResumedDiv.classList.add('.active');
+    if (!cardDateResumed.classList.contains('active')) {
+      cardDateResumed.classList.add('active');
     }
   }
 
@@ -90,11 +94,11 @@ export default function displayController() {
 
   function completeCard(card, date = new Date()) {
     if (card.classList.contains('card-paused')) {
-      card.classList.remove('card-paused');
+      pauseResumeCard(card, date);
     }
     const daysLeft = card.querySelector('.card-days-left');
     daysLeft.textContent = format(date, 'dd-MM-yyyy');
-    card.classList.add('.card-done');
+    card.classList.toggle('card-done');
   }
 
   function displayAddToDo() {
@@ -129,11 +133,21 @@ export default function displayController() {
       cardDescription.setAttribute('class', 'card-description');
       const cardDescriptionButton = document.createElement('button');
       cardDescriptionButton.setAttribute('class', 'card-description-button');
-      cardDescriptionButton.textContent = toDoList[i].getDescription();
+      if (toDoList[i].getDescription().split(' ').length > 15) {
+        cardDescriptionButton.textContent = toDoList[i]
+          .getDescription()
+          .split(' ')
+          .slice(0, 15)
+          .join(' ');
+      } else {
+        cardDescriptionButton.textContent = toDoList[i].getDescription();
+      }
+
       cardDescription.appendChild(cardDescriptionButton);
       card.appendChild(cardDescription);
 
       const cardDateDetails = document.createElement('div');
+      cardDateDetails.classList.add('card-date-details');
 
       const cardDateCreated = document.createElement('div');
       const cardDateCreatedDiv = document.createElement('div');
@@ -151,35 +165,37 @@ export default function displayController() {
 
       const cardDatePaused = document.createElement('div');
       const cardDatePausedDiv = document.createElement('div');
-      cardDatePausedDiv.classList.add('card-date-paused');
-      cardDatePausedDiv.textContent = 'Created on:';
+      cardDatePaused.classList.add('card-date-paused');
+      cardDatePausedDiv.textContent = 'Paused on:';
       cardDatePaused.appendChild(cardDatePausedDiv);
       const pausedDate = document.createElement('div');
       pausedDate.classList.add('paused-date');
-      pausedDate.textContent = format(
-        toDoList[i].getDatePaused(),
-        'dd-MM-yyyy'
-      );
-      if (pausedDate.textContent !== '') {
+      if (typeof toDoList[i].getDatePaused() !== 'undefined') {
+        pausedDate.textContent = format(
+          toDoList[i].getDatePaused(),
+          'dd-MM-yyyy'
+        );
         pausedDate.classList.add('active');
       }
+
       cardDatePaused.appendChild(pausedDate);
       cardDateDetails.appendChild(cardDatePaused);
 
       const cardDateResumed = document.createElement('div');
       const cardDateResumedDiv = document.createElement('div');
-      cardDateResumedDiv.classList.add('card-date-resumed');
-      cardDateResumedDiv.textContent = 'Created on:';
+      cardDateResumed.classList.add('card-date-resumed');
+      cardDateResumedDiv.textContent = 'Resumed on:';
       cardDateResumed.appendChild(cardDateResumedDiv);
       const resumedDate = document.createElement('div');
       resumedDate.classList.add('resumed-date');
-      resumedDate.textContent = format(
-        toDoList[i].getDateResumed(),
-        'dd-MM-yyyy'
-      );
-      if (resumedDate.textContent !== '') {
+      if (typeof toDoList[i].getDateResumed() !== 'undefined') {
+        resumedDate.textContent = format(
+          toDoList[i].getDateResumed(),
+          'dd-MM-yyyy'
+        );
         resumedDate.classList.add('active');
       }
+
       cardDateResumed.appendChild(resumedDate);
       cardDateDetails.appendChild(cardDateResumed);
 
@@ -191,13 +207,13 @@ export default function displayController() {
       cardPriorityButton.setAttribute('class', 'card-priority-button');
       const cardPriorityImage = document.createElement('img');
       switch (toDoList[i].getPriority()) {
-        case 0:
+        case '0':
           cardPriorityImage.setAttribute('src', HighPriorityImg);
           break;
-        case 1:
+        case '1':
           cardPriorityImage.setAttribute('src', MediumPriorityImg);
           break;
-        case 2:
+        case '2':
           cardPriorityImage.setAttribute('src', LowPriorityImg);
           break;
         default:
@@ -281,6 +297,7 @@ export default function displayController() {
           break;
       }
     }
+    displayAddToDo();
   }
 
   function displayDate() {
@@ -338,17 +355,17 @@ export default function displayController() {
   function populateToDoSettings(todo) {
     const form = document.querySelector('.form.toDo-settings');
 
-    const title = form.querySelector('label[for="toDo-title"]');
+    const title = form.querySelector('#toDo-title');
     title.value = todo.getTitle();
 
     const description = form.querySelector('textarea');
     description.value = todo.getDescription();
 
-    const priority = form.querySelector('label[for="toDo-priority"]');
+    const priority = form.querySelector('#toDo-priority');
     priority.value = todo.getPriority();
 
-    const date = form.querySelector('label[for="toDo-due-date"]');
-    date.value = todo.getDueDate();
+    const date = form.querySelector('#toDo-due-date');
+    date.value = format(todo.getDueDate(), 'yyyy-MM-dd');
   }
 
   function displayPriorityForm(toDo) {
@@ -369,7 +386,7 @@ export default function displayController() {
   function displayDateForm(toDo) {
     const form = document.querySelector('.form.change-date');
     const label = form.querySelector('label');
-    label.value = toDo.getDuedate();
+    label.value = toDo.getDueDate();
     form.dataset.title = toDo.getTitle();
     form.classList.add('active');
   }
@@ -379,6 +396,12 @@ export default function displayController() {
     refreshNotes(toDo);
     form.dataset.title = toDo.getTitle();
     form.classList.add('active');
+  }
+
+  function clearToDos() {
+    while (todos.firstChild) {
+      todos.removeChild(todos.lastChild);
+    }
   }
   return {
     displayProjects,
@@ -394,5 +417,6 @@ export default function displayController() {
     displayCheckpointsForm,
     displayDateForm,
     displayNotesForm,
+    clearToDos,
   };
 }

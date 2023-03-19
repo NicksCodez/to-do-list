@@ -1,6 +1,7 @@
 import './style.css';
 import './form-style.css';
 import format from 'date-fns/format';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import projectListFactory from './projectListFactory';
 import controller from './controller';
 import displayController from './displayController';
@@ -9,6 +10,8 @@ import toDoFactory from './toDoFactory';
 const control = controller();
 document.addEventListener('DOMContentLoaded', () => {});
 control.initPage();
+// const date = new Date('2023-03-20T03:24:00');
+// console.log(differenceInCalendarDays(date, new Date()));
 // attachButonListeners();
 
 // const testDate = displayController();

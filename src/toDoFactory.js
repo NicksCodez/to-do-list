@@ -6,6 +6,7 @@ export default function toDoFactory(
   dueDate = new Date(),
   priority = 2
 ) {
+  dueDate = new Date(dueDate);
   let status = 0; // 0 ongoing, 1 paused, 2 completed
   const createdOn = new Date();
   const notes = [];
@@ -95,7 +96,7 @@ export default function toDoFactory(
   }
 
   function setDueDate(newDueDate) {
-    dueDate = newDueDate;
+    dueDate = new Date(newDueDate);
     daysLeft =
       dueDate !== undefined
         ? differenceInCalendarDays(dueDate, new Date())
@@ -107,10 +108,9 @@ export default function toDoFactory(
   }
 
   function setPriority(newPriority) {
-    if (newPriority === -1) {
-      return;
+    if (newPriority !== '-1') {
+      priority = newPriority;
     }
-    priority = newPriority;
   }
 
   function getPriority() {

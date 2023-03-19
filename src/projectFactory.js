@@ -34,7 +34,8 @@ export default function projectFactory(name) {
   }
   function getUrgentToDos() {
     return toDos.filter(
-      (toDo) => isToday(toDo.getDueDate()) === true && toDo.getPriority() === 0
+      (toDo) =>
+        isToday(toDo.getDueDate()) === true && toDo.getPriority() === '0'
     );
   }
 
@@ -77,6 +78,12 @@ export default function projectFactory(name) {
   }
 
   function add(title, description = '', dueDate = new Date(), priority = 2) {
+    // console.log('adding');
+    if (title === '') {
+      console.log('empty title');
+      return;
+    }
+
     if (getToDo(title) !== undefined) {
       alert('ToDo with same name already exists!');
       return;
@@ -95,10 +102,13 @@ export default function projectFactory(name) {
   }
 
   function remove(title) {
+    console.log(title);
     const index = getToDoIndex(title);
+    console.log(index);
     if (index !== -1) {
       toDos.splice(index, 1);
     }
+
     // for (let i = 0; i < toDos.length; i++) {
     //   if (toDos[i].getTitle() === title) {
     //     toDos.splice(i, 1);
@@ -159,7 +169,19 @@ export default function projectFactory(name) {
   // }
 
   function editToDo(title, newTitle, description, dueDate, priority) {
-    const toDo = toDos.getToDo(title);
+    if (newTitle === '') {
+      console.log('empty title');
+      return;
+    }
+
+    if (newTitle !== title) {
+      if (getToDo(newTitle) !== undefined) {
+        alert('ToDo with same name already exists!');
+        return;
+      }
+    }
+
+    const toDo = getToDo(title);
     toDo.setTitle(newTitle);
     toDo.setDescription(description);
     toDo.setDueDate(dueDate);
