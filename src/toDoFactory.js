@@ -12,12 +12,19 @@ export default function toDoFactory(
   let createdOn = new Date();
   let notes = [];
   let checklist = [];
+  let checked = [];
   let daysLeft =
     dueDate !== undefined ? differenceInCalendarDays(dueDate, new Date()) : '';
   let dateCompleted;
   let datePaused;
   let dateResumed;
 
+  function refreshDaysLeft() {
+    daysLeft =
+      dueDate !== undefined
+        ? differenceInCalendarDays(dueDate, new Date())
+        : '';
+  }
   function getDateCreated() {
     return createdOn;
   }
@@ -26,6 +33,15 @@ export default function toDoFactory(
     if (note !== '') {
       notes.push(note);
     }
+  }
+
+  function setChecked(isChecked, checkpoint) {
+    const index = checklist.indexOf(checkpoint);
+    checked[index] = isChecked;
+  }
+
+  function getChecked() {
+    return checked;
   }
 
   function deleteNote(note) {
@@ -42,6 +58,7 @@ export default function toDoFactory(
   function addCheckpoint(checkpoint) {
     if (checkpoint !== '') {
       checklist.push(checkpoint);
+      checked.push(false);
     }
   }
 
@@ -106,6 +123,7 @@ export default function toDoFactory(
       dueDate !== undefined
         ? differenceInCalendarDays(dueDate, new Date())
         : '';
+    refreshDaysLeft();
   }
 
   function getDueDate() {
@@ -140,6 +158,7 @@ export default function toDoFactory(
       createdOn,
       notes,
       checklist,
+      checked,
       dateCompleted,
       datePaused,
       dateResumed,
@@ -155,6 +174,7 @@ export default function toDoFactory(
     createdOn = parseISO(state.createdOn);
     notes = state.notes;
     checklist = state.checklist;
+    checked = state.checked;
     dateCompleted =
       typeof state.dateCompleted === 'undefined'
         ? undefined
@@ -196,5 +216,7 @@ export default function toDoFactory(
     getStatus,
     toJSON,
     fromJSON,
+    setChecked,
+    getChecked,
   };
 }

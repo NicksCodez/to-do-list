@@ -101,7 +101,7 @@ export default function displayController() {
     }
     const daysLeft = card.querySelector('.card-days-left');
     daysLeft.textContent = format(date, 'dd-MM-yyyy');
-    card.classList.toggle('card-done');
+    card.classList.add('card-done');
   }
 
   function displayAddToDo() {
@@ -329,6 +329,7 @@ export default function displayController() {
 
   function refreshCheckpoints(toDo) {
     const checkpointList = document.querySelector('.checkpoint-list');
+    const isChecked = toDo.getChecked();
     while (checkpointList.firstChild) {
       checkpointList.removeChild(checkpointList.lastChild);
     }
@@ -342,6 +343,9 @@ export default function displayController() {
       input.setAttribute('type', 'checkbox');
       input.setAttribute('id', 'checkpoint');
       input.setAttribute('name', 'checkpoint');
+      if (isChecked[toDo.getCheckpoints().indexOf(checkpoint)]) {
+        input.setAttribute('checked', 'true');
+      }
       div.appendChild(input);
       const label = document.createElement('label');
       label.setAttribute('for', 'checkpoint');
@@ -387,8 +391,8 @@ export default function displayController() {
 
   function displayDateForm(toDo) {
     const form = document.querySelector('.form.change-date');
-    const label = form.querySelector('label');
-    label.value = toDo.getDueDate();
+    const label = form.querySelector('#due-date');
+    label.value = format(toDo.getDueDate(), 'yyyy-MM-dd');
     form.dataset.title = toDo.getTitle();
     form.classList.add('active');
   }

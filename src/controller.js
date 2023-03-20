@@ -1,4 +1,5 @@
 import format from 'date-fns/format';
+// import { check } from 'prettier';
 import displayController from './displayController';
 import storageController from './storageController';
 
@@ -116,6 +117,7 @@ export default function controller() {
   function initCheckpoints() {
     const deleteCheckpointButtons =
       document.querySelectorAll('.delete-checkpoint');
+    const checkButtons = document.querySelectorAll('input[name="checkpoint"]');
     for (let i = 0; i < deleteCheckpointButtons.length; i++) {
       deleteCheckpointButtons[i].addEventListener('click', () => {
         event.preventDefault();
@@ -127,6 +129,23 @@ export default function controller() {
           .getCurrentProject()
           .getToDo(mainDiv.dataset.title)
           .deleteCheckpoint(check.textContent);
+        storageController().saveState(projects.toJSON());
+        display.refreshCheckpoints(
+          projects.getCurrentProject().getToDo(mainDiv.dataset.title)
+        );
+        initCheckpoints();
+      });
+    }
+    for (let i = 0; i < checkButtons.length; i++) {
+      checkButtons[i].addEventListener('click', () => {
+        event.preventDefault();
+        event.stopPropagation();
+        const isChecked = event.target.nextElementSibling;
+        const mainDiv = event.target.closest('.form');
+        projects
+          .getCurrentProject()
+          .getToDo(mainDiv.dataset.title)
+          .setChecked(event.target.checked, isChecked.textContent);
         storageController().saveState(projects.toJSON());
         display.refreshCheckpoints(
           projects.getCurrentProject().getToDo(mainDiv.dataset.title)
