@@ -15,6 +15,7 @@
     "no-underscore-dangle": "off",
     "no-loop-func": "off",
     "no-param-reassign": "warn",
-    "no-restricted-syntax": "warn"
+    "no-restricted-syntax": "warn",
+    "no-restricted-globals": "warn"
   }
 }

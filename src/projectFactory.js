@@ -189,6 +189,25 @@ export default function projectFactory(name) {
     sortDefault();
   }
 
+  function toJSON() {
+    const toDosJSON = [];
+    for (let i = 0; i < toDos.length; i++) {
+      toDosJSON.push(toDos[i].toJSON());
+    }
+    return {
+      name,
+      toDos: toDosJSON,
+    };
+  }
+
+  function fromJSON(state) {
+    name = state.name;
+    for (let i = 0; i < state.toDos.length; i++) {
+      add(state.toDos[i].title);
+      toDos[i].fromJSON(state.toDos[i]);
+    }
+  }
+
   return {
     getToDos,
     getTitle,
@@ -199,5 +218,7 @@ export default function projectFactory(name) {
     getToDo,
     editToDo,
     setCategory,
+    toJSON,
+    fromJSON,
   };
 }

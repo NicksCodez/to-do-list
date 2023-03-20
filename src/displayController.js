@@ -1,5 +1,4 @@
 import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
 import MenuImg from './images/options.svg';
 import HighPriorityImg from './images/alert-triangle.svg';
 import MediumPriorityImg from './images/triangle.svg';
@@ -85,6 +84,10 @@ export default function displayController() {
   }
 
   function pauseResumeCard(card, date = new Date()) {
+    if (card.classList.contains('card-done')) {
+      resumeCard(card, date);
+      return;
+    }
     if (card.classList.contains('card-paused')) {
       resumeCard(card, date);
     } else {
@@ -175,7 +178,7 @@ export default function displayController() {
           toDoList[i].getDatePaused(),
           'dd-MM-yyyy'
         );
-        pausedDate.classList.add('active');
+        cardDatePaused.classList.add('active');
       }
 
       cardDatePaused.appendChild(pausedDate);
@@ -193,7 +196,7 @@ export default function displayController() {
           toDoList[i].getDateResumed(),
           'dd-MM-yyyy'
         );
-        resumedDate.classList.add('active');
+        cardDateResumed.classList.add('active');
       }
 
       cardDateResumed.appendChild(resumedDate);
@@ -304,7 +307,6 @@ export default function displayController() {
     // eslint-disable-next-line quotes
     const formatted = format(new Date(), "cccc', 'do LLLL");
     dateDiv.textContent = formatted;
-    console.log('done');
   }
 
   function refreshNotes(toDo) {

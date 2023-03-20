@@ -20,7 +20,6 @@ export default function projectListFactory() {
 
   function add(title) {
     if (title === '') {
-      console.log('empty title');
       return;
     }
     if (findProjectIndex(title) !== -1) {
@@ -31,9 +30,7 @@ export default function projectListFactory() {
   }
 
   function remove(title) {
-    console.log(title);
     const projectIndex = findProjectIndex(title);
-    console.log(projectIndex);
     if (projectIndex !== -1) {
       projectList.splice(projectIndex, 1);
     }
@@ -44,7 +41,6 @@ export default function projectListFactory() {
 
   function rename(title, newTitle) {
     if (title === '') {
-      console.log('empty title');
       return;
     }
     if (findProjectIndex(title) === -1) {
@@ -61,6 +57,10 @@ export default function projectListFactory() {
     currentProject = findProjectIndex(title);
   }
 
+  function toJSON() {
+    return { projectList };
+  }
+
   return {
     getProjectList,
     add,
@@ -69,5 +69,6 @@ export default function projectListFactory() {
     findProjectIndex,
     getCurrentProject,
     setCurrentProject,
+    toJSON,
   };
 }

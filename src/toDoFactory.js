@@ -1,4 +1,5 @@
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+import parseISO from 'date-fns/parseISO';
 
 export default function toDoFactory(
   title,
@@ -8,9 +9,9 @@ export default function toDoFactory(
 ) {
   dueDate = new Date(dueDate);
   let status = 0; // 0 ongoing, 1 paused, 2 completed
-  const createdOn = new Date();
-  const notes = [];
-  const checklist = [];
+  let createdOn = new Date();
+  let notes = [];
+  let checklist = [];
   let daysLeft =
     dueDate !== undefined ? differenceInCalendarDays(dueDate, new Date()) : '';
   let dateCompleted;
@@ -22,7 +23,9 @@ export default function toDoFactory(
   }
 
   function addNote(note) {
-    notes.push(note);
+    if (note !== '') {
+      notes.push(note);
+    }
   }
 
   function deleteNote(note) {
@@ -37,11 +40,13 @@ export default function toDoFactory(
   }
 
   function addCheckpoint(checkpoint) {
-    checklist.push(checkpoint);
+    if (checkpoint !== '') {
+      checklist.push(checkpoint);
+    }
   }
 
   function deleteCheckpoint(checkpoint) {
-    const index = notes.indexOf(checkpoint);
+    const index = checklist.indexOf(checkpoint);
     if (index !== -1) {
       checklist.splice(index, 1);
     }
@@ -125,6 +130,45 @@ export default function toDoFactory(
     return status;
   }
 
+  function toJSON() {
+    return {
+      title,
+      description,
+      dueDate,
+      priority,
+      status,
+      createdOn,
+      notes,
+      checklist,
+      dateCompleted,
+      datePaused,
+      dateResumed,
+    };
+  }
+
+  function fromJSON(state) {
+    title = state.title;
+    description = state.description;
+    dueDate = parseISO(state.dueDate);
+    priority = state.priority;
+    status = state.status;
+    createdOn = parseISO(state.createdOn);
+    notes = state.notes;
+    checklist = state.checklist;
+    dateCompleted =
+      typeof state.dateCompleted === 'undefined'
+        ? undefined
+        : parseISO(state.dateCompleted);
+    datePaused =
+      typeof state.datePaused === 'undefined'
+        ? undefined
+        : parseISO(state.datePaused);
+    dateResumed =
+      typeof state.dateResumed === 'undefined'
+        ? undefined
+        : parseISO(state.dateResumed);
+  }
+
   return {
     setTitle,
     getTitle,
@@ -150,5 +194,7 @@ export default function toDoFactory(
     getDateResumed,
     setStatus,
     getStatus,
+    toJSON,
+    fromJSON,
   };
 }

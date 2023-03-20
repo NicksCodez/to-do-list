@@ -1,16 +1,15 @@
 import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
-import projectListFactory from './projectListFactory';
 import displayController from './displayController';
+import storageController from './storageController';
 
 export default function controller() {
-  const projects = projectListFactory();
+  // const projects = projectListFactory();
+  const projects = storageController().getProjectList();
   const display = displayController();
 
   function addToDo() {
     event.preventDefault();
     event.stopPropagation();
-    console.log('no of projects: ', projects.getProjectList().length);
     if (projects.getProjectList().length === 0) {
       projects.add('Rename me!');
       projects.setCurrentProject('Rename me!');
@@ -27,6 +26,7 @@ export default function controller() {
       legend.textContent = 'New ToDo';
       form.classList.add('active');
     }
+    storageController().saveState(projects.toJSON());
   }
 
   function editToDo() {
@@ -47,6 +47,7 @@ export default function controller() {
     // label.textContent = 'Edit ToDo';
     display.populateToDoSettings(toDo);
     form.classList.add('active');
+    storageController().saveState(projects.toJSON());
   }
 
   function editPriority() {
@@ -60,6 +61,7 @@ export default function controller() {
     const title = titleDiv.textContent;
     const toDo = projects.getCurrentProject().getToDo(title);
     display.displayPriorityForm(toDo);
+    storageController().saveState(projects.toJSON());
   }
 
   function editDates() {
@@ -73,6 +75,27 @@ export default function controller() {
     const title = titleDiv.textContent;
     const toDo = projects.getCurrentProject().getToDo(title);
     display.displayDateForm(toDo);
+    storageController().saveState(projects.toJSON());
+  }
+  function initNotesButtons() {
+    const deleteNoteButtons = document.querySelectorAll('.delete-note');
+    for (let i = 0; i < deleteNoteButtons.length; i++) {
+      deleteNoteButtons[i].addEventListener('click', () => {
+        event.preventDefault();
+        event.stopPropagation();
+        const note = event.target.previousElementSibling;
+        const mainDiv = event.target.closest('.form');
+        projects
+          .getCurrentProject()
+          .getToDo(mainDiv.dataset.title)
+          .deleteNote(note.textContent);
+        storageController().saveState(projects.toJSON());
+        display.refreshNotes(
+          projects.getCurrentProject().getToDo(mainDiv.dataset.title)
+        );
+        initNotesButtons();
+      });
+    }
   }
 
   function editNotes() {
@@ -86,6 +109,31 @@ export default function controller() {
     const title = titleDiv.textContent;
     const toDo = projects.getCurrentProject().getToDo(title);
     display.displayNotesForm(toDo);
+    initNotesButtons();
+    storageController().saveState(projects.toJSON());
+  }
+
+  function initCheckpoints() {
+    const deleteCheckpointButtons =
+      document.querySelectorAll('.delete-checkpoint');
+    for (let i = 0; i < deleteCheckpointButtons.length; i++) {
+      deleteCheckpointButtons[i].addEventListener('click', () => {
+        event.preventDefault();
+        event.stopPropagation();
+        const check =
+          event.target.previousElementSibling.querySelector('label');
+        const mainDiv = event.target.closest('.form');
+        projects
+          .getCurrentProject()
+          .getToDo(mainDiv.dataset.title)
+          .deleteCheckpoint(check.textContent);
+        storageController().saveState(projects.toJSON());
+        display.refreshCheckpoints(
+          projects.getCurrentProject().getToDo(mainDiv.dataset.title)
+        );
+        initCheckpoints();
+      });
+    }
   }
 
   function editChecks() {
@@ -99,6 +147,8 @@ export default function controller() {
     const title = titleDiv.textContent;
     const toDo = projects.getCurrentProject().getToDo(title);
     display.displayCheckpointsForm(toDo);
+    initCheckpoints();
+    storageController().saveState(projects.toJSON());
   }
 
   function pauseToDo() {
@@ -114,11 +164,14 @@ export default function controller() {
 
     if (card.classList.contains('card-paused')) {
       toDo.setDateResumed(date);
+      toDo.setStatus(0);
     } else {
       toDo.setDatePaused(date);
+      toDo.setStatus(1);
     }
 
     display.pauseResumeCard(card, date);
+    storageController().saveState(projects.toJSON());
   }
 
   function completeToDo() {
@@ -127,13 +180,18 @@ export default function controller() {
 
     const card = event.target.closest('.card');
     const date = new Date();
-
-    // if (card.classList.contains('card-done')) {
-    //   return;
-    // }
     const toDo = projects.getCurrentProject().getToDo(card.dataset.title);
-    toDo.setDateCompleted(date);
-    display.completeCard(card, date);
+    if (card.classList.contains('card-done')) {
+      display.pauseResumeCard(card, date);
+      toDo.setStatus(0);
+      card.classList.remove('card-done');
+    } else {
+      toDo.setDateCompleted(date);
+      toDo.setStatus(2);
+      display.completeCard(card, date);
+    }
+
+    storageController().saveState(projects.toJSON());
   }
 
   function displayInitToDos() {
@@ -189,10 +247,8 @@ export default function controller() {
         event.preventDefault();
         event.stopPropagation();
         const card = event.target.closest('.card');
-        if (card.classList.contains('card-done')) {
-          return;
-        }
         projects.getCurrentProject().remove(card.dataset.title);
+        storageController().saveState(projects.toJSON());
         displayInitToDos();
       });
     }
@@ -220,19 +276,15 @@ export default function controller() {
     const title = projectDiv.querySelector('.project-button').textContent;
     editForm.dataset.title = title;
     editForm.classList.add('active');
+    storageController().saveState(projects.toJSON());
   }
 
   function removeProject() {
     event.preventDefault();
     event.stopPropagation();
-    console.log(event.target);
-    console.log(event.target.parentElement.parentElement);
-    console.log(
-      event.target.parentElement.parentElement.previousElementSibling
-    );
-    console.log(event.target.dataset.title);
     const project = event.target.dataset.title;
     projects.remove(project);
+    storageController().saveState(projects.toJSON());
   }
 
   function displayInitProjects() {
@@ -269,6 +321,7 @@ export default function controller() {
     event.stopPropagation();
     const form = document.querySelector('.form.add-project');
     form.classList.add('active');
+    storageController().saveState(projects.toJSON());
   }
 
   function changeCategory() {
@@ -339,7 +392,6 @@ export default function controller() {
     );
     const toDoPriority = document.querySelector('select[id="toDo-priority"]');
     const toDoDueDate = document.querySelector('input[id="toDo-due-date"]');
-    const legend = mainDiv.querySelector('legend');
 
     switch (formType) {
       case 'add-project':
@@ -417,11 +469,13 @@ export default function controller() {
         displayInitProjects();
         projects.setCurrentProject(projectTitle.value);
         displayInitToDos();
+        cancelForm();
         break;
       case 'edit-project':
         projects.rename(title, newProjectTitle.value);
         display.displayProjects(projects.getProjectList());
         displayInitProjects();
+        cancelForm();
         break;
       case 'change-date':
         projects
@@ -430,17 +484,23 @@ export default function controller() {
           .setDueDate(newDueDate.value);
         display.displayToDos(projects.getCurrentProject());
         displayInitToDos();
+        cancelForm();
+
         break;
       case 'notes':
         projects.getCurrentProject().getToDo(title).addNote(newNote.value);
-        display.refreshNotes();
+        display.refreshNotes(projects.getCurrentProject().getToDo(title));
+        initNotesButtons();
+        newNote.value = '';
         break;
       case 'checkpoints':
         projects
           .getCurrentProject()
           .getToDo(title)
-          .addNote(newCheckpoint.value);
-        display.refreshCheckpoints();
+          .addCheckpoint(newCheckpoint.value);
+        display.refreshCheckpoints(projects.getCurrentProject().getToDo(title));
+        initCheckpoints();
+        newCheckpoint.value = '';
         break;
       case 'change-priority':
         projects
@@ -449,6 +509,8 @@ export default function controller() {
           .setPriority(newPriority.value);
         display.displayToDos(projects.getCurrentProject());
         displayInitToDos();
+        cancelForm();
+
         break;
       case 'toDo-settings':
         if (projects.getProjectList().length !== 0) {
@@ -475,22 +537,18 @@ export default function controller() {
           }
           display.displayToDos(projects.getCurrentProject());
           displayInitToDos();
+          cancelForm();
         }
-
         break;
       default:
         break;
     }
-    cancelForm();
-    mainDiv.classList.remove('active');
+    storageController().saveState(projects.toJSON());
   }
 
   function initForms() {
     const submitFormButtons = document.querySelectorAll('.form-submit');
     const cancelFormButtons = document.querySelectorAll('.form-cancel');
-    const deleteCheckpointButtons =
-      document.querySelectorAll('.delete-checkpoint');
-    const deleteNoteButtons = document.querySelectorAll('.delete-note');
 
     for (let i = 0; i < submitFormButtons.length; i++) {
       submitFormButtons[i].addEventListener('click', submitForm);
@@ -498,41 +556,6 @@ export default function controller() {
 
     for (let i = 0; i < cancelFormButtons.length; i++) {
       cancelFormButtons[i].addEventListener('click', cancelForm);
-    }
-
-    for (let i = 0; i < deleteCheckpointButtons.length; i++) {
-      deleteCheckpointButtons[i].addEventListener('click', () => {
-        event.preventdefault();
-        event.stopPropagation();
-        const check =
-          event.target.previousElementSibling.querySelector('label');
-        const mainDiv = event.target.closest('.form');
-        projects
-          .getCurrentProject()
-          .getToDo(mainDiv.dataset.title)
-          .deleteCheckpoint(check.textContent);
-        display.refreshCheckpoints(
-          projects.getCurrentProject().getToDo(mainDiv.dataset.title)
-        );
-        initForms();
-      });
-    }
-
-    for (let i = 0; i < deleteNoteButtons.length; i++) {
-      deleteNoteButtons[i].addEventListener('click', () => {
-        event.preventdefault();
-        event.stopPropagation();
-        const note = event.target.previousElementSibling;
-        const mainDiv = event.target.closest('.form');
-        projects
-          .getCurrentProject()
-          .getToDo(mainDiv.dataset.title)
-          .deleteNote(note.textContent);
-        display.refreshNotes(
-          projects.getCurrentProject().getToDo(mainDiv.dataset.title)
-        );
-        initForms();
-      });
     }
   }
 
